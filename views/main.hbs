@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mongodb crud operation</title>
+    <link rel="icon" type="image/x-icon" href="/Learn CRUD Operations in JavaScript by Building TODO APP.jpg">
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1 class="head">CRUD Operation using Node and Mongodb</h1>
+        <h2 class="registration">book registration</h2>
+     {{#if edit_id}}
+
+    <form action="/editData/{{edit_id}}" method="post">
+    <h1>Edit Mode</h1>
+    <br>
+    &nbsp;&nbsp;{{message}}
+           <br><br>
+           <span class="inputs">
+        <label for="title" class="title label">Title &nbsp;</label>
+        <input type="text" name="title" class="input-title" value="{{edit_book.title}}" required>
+        <label for="author" class="author label">Author &nbsp;</label>
+        <input type="text" class="input-author" name="author" value="{{edit_book.author}}" required>
+        <input type="submit" class="submit">
+        </span>
+    </form>
+        <br><br><br>
+    {{else}}
+
+    <form action="/storedData" method="post">
+   
+    <h1>Create Mode</h1>
+    <br>
+    &nbsp;&nbsp;{{message}}
+    <br><br>
+    <span class="inputs">
+        <label for="title" class="title label">Title &nbsp;</label>
+        <input type="text" class="input-title" name="title" required>
+        <label for="author" class="author label">Author &nbsp;</label>
+        <input type="text" class="input-author" name="author" required>
+        <input type="submit" class="submit">
+    </span>
+    </form>
+        <br><br><br>
+
+    {{/if}}
+    
+    <span class="list outer">
+    <ul>
+        <span class="datas">
+        {{#each book}}
+        <li>-{{this.title}} - {{this.author}} - <span class="controls"><a href="/?edit_id={{this._id}}" class="edit">Edit</a>&nbsp;&nbsp;&nbsp;<a href="/?delete_id={{this._id}}" class="delete" onclick="return confirm('Are you sure want to delete?')">Delete</a></span></li>
+        {{/each}}
+        </span>
+    </ul>
+    </span>
+</body>
+</html>
