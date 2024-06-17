@@ -23,10 +23,7 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.post('/storedData',async (req,res)=>{
-    /* let database = await dbo.getDatabase(); */
-    /* const collection = database.collection('books'); */
-    /* let book = {title:req.body.title,author:req.body.author}; */
-    /* await collection.insertOne(book); */
+    
     let book = new bookModel({title:req.body.title,author:req.body.author});
     book.save();
     res.redirect('/?status=1');
@@ -35,12 +32,7 @@ app.post('/storedData',async (req,res)=>{
 
 app.post('/editData/:edit_id',async (req,res)=>{
 
-   /*  let database = await dbo.getDatabase();
-    const collection = database.collection('books');
-   let book = {title:req.body.title,author:req.body.author};*/
-
-   let edit_id = req.params.edit_id; 
-    /* await collection.updateOne({_id:edit_id},{$set:book}); */
+   let edit_id = req.params.edit_id;
     await bookModel.findOneAndUpdate({_id:edit_id},{title:req.body.title,author:req.body.author})
     return res.redirect('/?status=2');
 
@@ -48,23 +40,17 @@ app.post('/editData/:edit_id',async (req,res)=>{
 
 app.get('/',async (req,res)=>{
     let message = '';
-/*     let database =await dbo.getDatabase();
-    const collection = database.collection('books');
-    let cursor = collection.find({});
-    let book = await cursor.toArray();
-     */
+
     let book = await bookModel.find({});
 
     let edit_id,edit_book; 
 
     if(req.query.edit_id){
         edit_id = req.query.edit_id;
-        /* edit_book = await collection.findOne({ _id: new ObjectID(edit_id) });         */
         edit_book = await bookModel.findOne({_id:edit_id});
     }
     if(req.query.delete_id){
         delete_id = req.query.delete_id;
-       /*  await collection.deleteOne({_id: new ObjectID(delete_id)}); */
        await bookModel.deleteOne({_id:delete_id});
         return res.redirect('/?status=3');    
     }
